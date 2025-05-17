@@ -23,7 +23,9 @@ function HomeComponent() {
       setErro("Favor, preencha todos os campos correntamente.");
     }
 
-    if (volta) kmPercorrido *= 2;
+    if (volta) {
+      kmPercorrido *= 2;
+    }
 
     const consumo = (kmPercorrido / litrosGastos) * precoLitro;
     setResultado(Number(consumo.toFixed(2)));
@@ -51,7 +53,7 @@ function HomeComponent() {
     <Card className="w-full max-w-md p-6 shadow-xl border border-violet-50 rounded-3xl bg-gradient-to-br  ">
       <CardContent className="space-y-10">
         <div className="flex justify-center">
-          <h2 className="text-2xl font-bold">Calcule seu consumo 🚗</h2>
+          <h2 className="text-xl  font-bold">Calcule seu consumo 🚗</h2>
         </div>
         <div className="space-y-6 ">
           <div className="flex flex-col space-y-2 ">
@@ -59,7 +61,7 @@ function HomeComponent() {
             <Input
               className="bg-white"
               placeholder="Km"
-              value={km}
+              value={volta ? +km * 2 : km}
               onChange={(e) => setKm(e.target.value)}
               onKeyDown={apenasNumeros}
             />
@@ -100,8 +102,19 @@ function HomeComponent() {
             </Button>
           </div>
           {resultado !== null && (
-            <div className="text-center font-semibold text-purple-900 text-md">
-              Custo estimado : R$ {resultado.toFixed(2).replace(".", ",")}
+            <div className="text-center font-semibold text-purple-900 text-md ">
+              Custo estimado : R${" "}
+              {volta
+                ? (resultado * 2).toFixed(2).replace(".", ",")
+                : resultado.toFixed(2).replace(".", ",")}
+              <p>
+                {" "}
+                ⛽{" "}
+                {volta
+                  ? ((+km * 2) / +litro).toFixed(2)
+                  : (+km / +litro).toFixed(2)}{" "}
+                Litros{" "}
+              </p>
             </div>
           )}
         </div>
